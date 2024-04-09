@@ -24,6 +24,7 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (await checkIfUserAlreadyExists())
+      //TODO make a better error message
       console.log("that user already exists in the db");
     else {
         onSubmit(username);
@@ -37,6 +38,7 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
     const myDocumentData = {
       password: password,
       picture: profilePic,
+      posts: [],
     };
 
     // Define the document reference

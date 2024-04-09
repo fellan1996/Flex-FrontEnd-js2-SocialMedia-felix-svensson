@@ -20,6 +20,7 @@ import LoggedInUser from "./components/LoggedInUser";
 function App() {
   const [greeting, setGreeting] = React.useState("No one is logged in");
   const [newUser, setNewUser] = React.useState("username");
+  const [whatToShow, setWhatToShow] = React.useState("Login");
   const [loggedIn, setLoggedIn] = React.useState<[boolean, string]>([
     false,
     "",
@@ -33,6 +34,7 @@ function App() {
     if (credentialsAreCorrect) {
       console.log("correct");
       setLoggedIn([true, username]);
+      setWhatToShow("makePost");
     }
   };
   const deleteUser = async () => {
@@ -42,7 +44,7 @@ function App() {
         await deleteDoc(docRef);
         console.log("Document successfully deleted!");
         logOut();
-        // setNewUser('');
+        setNewUser('');
       }
     } catch (error) {
       console.error("Error deleting document: ", error);
@@ -87,6 +89,7 @@ function App() {
 
   function makePost() {
     //TODO On the center of the screen a form with a textArea and a button should appear.
+    setWhatToShow("makePost");
   }
 
   function viewPosts() {
@@ -97,10 +100,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Sidebar keyProp={keyProp} loggedIn={loggedIn} onMakePost={makePost} onViewPosts={viewPosts} onLogOut={logOut} onDeleteUser={deleteUser}/>
-        <Main whatToShow="makePost" loggedIn={loggedIn}></Main>
+        <Main whatToShow={whatToShow} loggedIn={loggedIn} onLogIn={handleSubmit}></Main>
 
       </header>
-      <LoginForm onSubmit={handleSubmit}></LoginForm>
       <RegisterNewUser onSubmit={(user: string) => setNewUser(user)} />
     </div>
   );

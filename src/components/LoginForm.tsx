@@ -25,13 +25,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id='login-form'>
       <label>
-        Username:
+        Username:&nbsp;  
         <input type="text" value={username} required onChange={(event) => setUsername(event.target.value)} />
       </label>
       <label>
-        Password:
+        Password:&nbsp;  
         <input type="password" value={password} required onChange={(event) => setPassword(event.target.value)} />
       </label>
       <button type="submit">Login</button>

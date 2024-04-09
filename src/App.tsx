@@ -4,23 +4,26 @@ import "./App.css";
 import LoginForm from "./components/LoginForm";
 import ListOfUsers from "./components/ListOfUsers";
 import RegisterNewUser from "./components/RegisterNewUser";
+import Sidebar from "./components/Sidebar";
 import {
   addDoc,
   collection,
   doc,
   updateDoc,
+  deleteDoc,
   getDoc,
   getDocs,
 } from "@firebase/firestore";
 import db from "./firebase";
+import LoggedInUser from "./components/LoggedInUser";
 
 function App() {
-  console.log("rendered app.tsx");
-  const [greeting, setGreeting] = React.useState(
-    "Edit src/App.tsx and save to reload."
-  );
+  const [greeting, setGreeting] = React.useState("No one is logged in");
   const [newUser, setNewUser] = React.useState("username");
-  const [loggedIn, setLoggedIn] = React.useState([false, ""]);
+  const [loggedIn, setLoggedIn] = React.useState<[boolean, string]>([
+    false,
+    "",
+  ]);
   const [keyProp, setKeyProp] = React.useState(0); // Needed to rerender the ListOfUsers when a new user has been added
 
   const handleSubmit = async (username: string, password: string) => {
@@ -32,14 +35,36 @@ function App() {
       setLoggedIn([true, username]);
     }
   };
+  const deleteUser = async () => {
+    try {
+      if (loggedIn[0] && loggedIn[1] !== "") {
+        const docRef = doc(db, "users", loggedIn[1]);
+        await deleteDoc(docRef);
+        console.log("Document successfully deleted!");
+        logOut();
+        // setNewUser('');
+      }
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
+  };
+
+  const logOut = () => {
+    setLoggedIn([false, ""]);
+    setKeyProp((prevKeyProp) => prevKeyProp + 1);
+  };
 
   React.useEffect(() => {
-    if (loggedIn[0]) setGreeting("Welcome, " + loggedIn[1] + "!");
+    if (loggedIn[0]) {
+      setGreeting(loggedIn[1]);
+    } else {
+      setGreeting("No one is logged in");
+    }
   }, [loggedIn]);
 
   React.useEffect(() => {
     //rerender ListOfUsers
-    setKeyProp(prevKeyProp => prevKeyProp + 1);
+    setKeyProp((prevKeyProp) => prevKeyProp + 1);
   }, [newUser]);
 
   async function checkCredentials(
@@ -62,8 +87,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onLogOut={logOut} onDeleteUser={deleteUser}/>
         <img src={logo} className="App-logo" alt="logo" />
-        <p>{greeting}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -74,10 +99,7 @@ function App() {
         </a>
       </header>
       <LoginForm onSubmit={handleSubmit}></LoginForm>
-      <ListOfUsers keyProp={keyProp} />
-      <RegisterNewUser
-        onSubmit={(user: string) => setNewUser(user)}
-      />
+      <RegisterNewUser onSubmit={(user: string) => setNewUser(user)} />
     </div>
   );
 }

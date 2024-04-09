@@ -9,11 +9,12 @@ import {
   getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
+import norway from '../profilePics/nordic-landscape.jpg';
 
 const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSubmit}) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [postsAmount, setPostsAmount] = React.useState(0);
+  const [profilePic, setProfilePic] = React.useState('norway');
 
   //need to check if username already exists
   //need to add the user to firestore
@@ -35,7 +36,7 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
     const myCollection = collection(db, "users");
     const myDocumentData = {
       password: password,
-      postsAmount: postsAmount,
+      picture: profilePic,
     };
 
     // Define the document reference
@@ -82,13 +83,12 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
           />
         </label>
         <label>
-          PostsAmount:
-          <input
-            type="number"
-            value={postsAmount}
-            required
-            onChange={(event) => setPostsAmount(parseInt(event.target.value))}
-          />
+          profilePic:
+          <select name="profilePics" id="profilePic-selecter" required onChange={(event) => setProfilePic(event.target.value)}>
+            <option value="norway">Norway</option>
+            <option value="stockholm">Stockholm</option>
+            <option value="tomater">Tomatoes</option>
+          </select>
         </label>
         <button type="submit">Register</button>
       </form>

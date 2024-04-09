@@ -33,7 +33,7 @@ const ListOfUsers: React.FC<{keyProp: number}> = ({keyProp}) => {
     return (
         <div id='users-list'>
             {loading ? <p>Loading...</p> :
-                usernames.map((username, index) => (
+                usernames.map((username) => (
                     <a className="user-in-list" key={username}>{username}</a>
                 ))
             }

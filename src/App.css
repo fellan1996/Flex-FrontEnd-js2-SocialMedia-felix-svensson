@@ -65,6 +65,18 @@
 .user-in-list:hover {
   text-decoration-line: underline;
 }
+#make-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+#make-post-form > button {
+  width: 50px;
+}
+#make-post-text {
+  width: 70%;
+}
 
 .App-link {
   color: #61dafb;

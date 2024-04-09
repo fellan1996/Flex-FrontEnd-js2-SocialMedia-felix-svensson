@@ -7,6 +7,8 @@ interface sidebarProps {
   loggedIn: [boolean, string];
   onLogOut: () => void;
   onDeleteUser: () => void;
+  onMakePost: () => void;
+  onViewPosts: () => void;
 }
 
 const Sidebar: React.FC<sidebarProps> = ({
@@ -14,6 +16,8 @@ const Sidebar: React.FC<sidebarProps> = ({
   loggedIn,
   onLogOut,
   onDeleteUser,
+  onMakePost,
+  onViewPosts
 }) => {
   return (
     <div id="side-bar">
@@ -22,6 +26,8 @@ const Sidebar: React.FC<sidebarProps> = ({
           username={loggedIn[1]}
           onLogOut={onLogOut}
           onDeleteUser={onDeleteUser}
+          onMakePost={onMakePost}
+          onViewPosts={onViewPosts}
         />
       )}
       <div>

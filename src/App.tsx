@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import LoginForm from "./components/LoginForm";
 import ListOfUsers from "./components/ListOfUsers";
 import RegisterNewUser from "./components/RegisterNewUser";
 import Sidebar from "./components/Sidebar";
+import Main from "./components/Main";
 import {
   addDoc,
   collection,
@@ -84,19 +84,21 @@ function App() {
     }
     return credentialsAreCorrect;
   }
+
+  function makePost() {
+    //TODO On the center of the screen a form with a textArea and a button should appear.
+  }
+
+  function viewPosts() {
+
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onLogOut={logOut} onDeleteUser={deleteUser}/>
-        <img src={logo} className="App-logo" alt="logo" />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onMakePost={makePost} onViewPosts={viewPosts} onLogOut={logOut} onDeleteUser={deleteUser}/>
+        <Main whatToShow="makePost" loggedIn={loggedIn}></Main>
+
       </header>
       <LoginForm onSubmit={handleSubmit}></LoginForm>
       <RegisterNewUser onSubmit={(user: string) => setNewUser(user)} />

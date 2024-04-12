@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   addDoc,
   collection,
   doc,
   updateDoc,
+  arrayUnion,
   getDoc,
-  setDoc,
   getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
@@ -13,27 +13,31 @@ import norway from "../pictures/nordic-landscape.jpg";
 import stockholm from "../pictures/stockholm.jpg";
 import tomater from "../pictures/tomater.jpg";
 
-interface LoggedInUserProps {
-  onLogOut: () => void;
-  onDeleteUser: () => void;
-  username: string;
-  onViewPosts: () => void;
-  onMakePost: () => void;
+interface viewPostsProps {
+  loggedIn: [boolean, string];
 }
-const LoggedInUser: React.FC<LoggedInUserProps> = ({
-  onLogOut,
-  onDeleteUser,
-  username,
-  onViewPosts,
-  onMakePost
-}) => {
+
+const ViewPosts: React.FC<viewPostsProps> = ({ loggedIn }) => {
+  const [posts, setPosts] = React.useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [picture, setPicture] = React.useState("");
 
-  //Få reda på vilken bild den inloggade användaren har
+  const fetchPosts = async (): Promise<void> => {
+    const docRef = doc(db, "users", loggedIn[1]);
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setPosts(docSnap.data().posts);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("error fetching posts: ", error);
+    }
+  };
 
   const fetchProfilePicture = async (): Promise<void> => {
     let profilePicName = "";
-    const docRef = doc(db, "users", username);
+    const docRef = doc(db, "users", loggedIn[1]);
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -58,23 +62,24 @@ const LoggedInUser: React.FC<LoggedInUserProps> = ({
   };
 
   fetchProfilePicture();
-
+  fetchPosts();
   return (
-    <div id="logged-in-sidebar">
-      <div id="user-logged-in">
+    <div id="list-of-posts">
+      <div id="view-post-headline">
         <img src={picture} height={60} />
-        <p>{username}</p>
+        <h4>{loggedIn[1]}</h4>
       </div>
-      <div>
-        {/* ska lägga till en "view posts"-knapp */}
-
-        <button onClick={onMakePost}>Make a post</button>
-        <button onClick={onViewPosts}>View posts</button>
-        <button onClick={onDeleteUser}>Delete account</button>
-        <button onClick={onLogOut}>Log out</button>
-      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        posts.map((post, index) => (
+          <div className="post">
+            <p key={index}>{post}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 };
 
-export default LoggedInUser;
+export default ViewPosts;

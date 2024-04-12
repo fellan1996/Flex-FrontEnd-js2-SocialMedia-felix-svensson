@@ -9,6 +9,8 @@ interface sidebarProps {
   onDeleteUser: () => void;
   onMakePost: () => void;
   onViewPosts: () => void;
+  onRegisterUser: () => void;
+  onLogIn: () => void;
 }
 
 const Sidebar: React.FC<sidebarProps> = ({
@@ -17,7 +19,9 @@ const Sidebar: React.FC<sidebarProps> = ({
   onLogOut,
   onDeleteUser,
   onMakePost,
-  onViewPosts
+  onViewPosts,
+  onRegisterUser,
+  onLogIn
 }) => {
   return (
     <div id="side-bar">
@@ -33,6 +37,8 @@ const Sidebar: React.FC<sidebarProps> = ({
       <div>
         <p id="users-headline">Users</p>
         <ListOfUsers keyProp={keyProp} />
+        <button id="sidebar-register-btn" onClick={onRegisterUser}>Register new user</button>
+        {!loggedIn[0] && (<button id="sidebar-login-btn" onClick={onLogIn}>Log in</button>)}
       </div>
     </div>
   );

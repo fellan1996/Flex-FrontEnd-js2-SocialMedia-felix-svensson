@@ -20,14 +20,14 @@ import LoggedInUser from "./components/LoggedInUser";
 function App() {
   const [greeting, setGreeting] = React.useState("No one is logged in");
   const [newUser, setNewUser] = React.useState("username");
-  const [whatToShow, setWhatToShow] = React.useState("Login");
+  const [whatToShow, setWhatToShow] = React.useState("login");
   const [loggedIn, setLoggedIn] = React.useState<[boolean, string]>([
     false,
     "",
   ]);
   const [keyProp, setKeyProp] = React.useState(0); // Needed to rerender the ListOfUsers when a new user has been added
 
-  const handleSubmit = async (username: string, password: string) => {
+  const handleLogin = async (username: string, password: string) => {
     // check credentials
     const credentialsAreCorrect = await checkCredentials(username, password);
     console.log(credentialsAreCorrect + "  cred");
@@ -36,6 +36,7 @@ function App() {
       setLoggedIn([true, username]);
       setWhatToShow("makePost");
     }
+
   };
   const deleteUser = async () => {
     try {
@@ -87,23 +88,16 @@ function App() {
     return credentialsAreCorrect;
   }
 
-  function makePost() {
-    //TODO On the center of the screen a form with a textArea and a button should appear.
-    setWhatToShow("makePost");
-  }
-
-  function viewPosts() {
-
-  }
-
   return (
     <div className="App">
       <header className="App-header">
-        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onMakePost={makePost} onViewPosts={viewPosts} onLogOut={logOut} onDeleteUser={deleteUser}/>
-        <Main whatToShow={whatToShow} loggedIn={loggedIn} onLogIn={handleSubmit}></Main>
+        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onLogIn={() => setWhatToShow("login")} onRegisterUser={() => setWhatToShow("registerNewUser")} onMakePost={() => setWhatToShow("makePost")} onViewPosts={() => setWhatToShow("viewPosts")} onLogOut={logOut} onDeleteUser={deleteUser}/>
+        <div className="main">
+          <Main whatToShow={whatToShow} loggedIn={loggedIn} onLogIn={handleLogin} onRegisterNewUser={(username: string) => setNewUser(username)}></Main>
+        </div>
 
       </header>
-      <RegisterNewUser onSubmit={(user: string) => setNewUser(user)} />
+      
     </div>
   );
 }

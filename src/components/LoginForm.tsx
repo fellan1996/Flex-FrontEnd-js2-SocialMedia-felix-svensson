@@ -25,6 +25,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
 
   return (
+    <>
+    <h4>Log in</h4>
     <form onSubmit={handleSubmit} id='login-form'>
       <label>
         Username:&nbsp;  
@@ -36,6 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       </label>
       <button type="submit">Login</button>
     </form>
+    </>
   );
 };
 

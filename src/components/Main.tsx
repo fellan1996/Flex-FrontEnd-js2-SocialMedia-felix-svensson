@@ -30,21 +30,18 @@ const Main: React.FC<mainProps> = ({
 }) => {
   console.log(whatToShow);
 
-  if (whatToShow === "makePost" && loggedIn[0]) {
+  if (whatToShow === "makePost" && loggedIn[0])
     return <MakePostForm loggedIn={loggedIn} />;
-  }
 
-  if (whatToShow === "login") {
-    return <LoginForm onSubmit={onLogIn} />;
-  }
-
-  if (whatToShow === "registerNewUser") {
+  if (whatToShow === "registerNewUser")
     return <RegisterNewUser onSubmit={onRegisterNewUser} />;
-  }
 
-  if(whatToShow === "viewPosts") {
-    return <ViewPosts loggedIn={loggedIn}/>
-  }
+  if (whatToShow.split("-")[0] === "viewPosts" && loggedIn[0])
+    return <ViewPosts whosPosts={whatToShow.split("-")[1]} />;
+
+  if (whatToShow === "login" || !loggedIn[0])
+    return <LoginForm onSubmit={onLogIn} />;
+
   return <h4>Something went wrong</h4>;
 };
 

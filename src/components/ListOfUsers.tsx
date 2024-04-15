@@ -5,9 +5,16 @@ import {
     getDocs,
 } from "@firebase/firestore";
 
-const ListOfUsers: React.FC<{keyProp: number}> = ({keyProp}) => {
+interface listOfUsersProps {
+    keyProp: number;
+    onViewPosts: (username: string) => void;
+}
+
+const ListOfUsers: React.FC<listOfUsersProps> = ({keyProp, onViewPosts}) => {
     const [usernames, setUsernames] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+
+
 
     useEffect(() => {
         setLoading(true);
@@ -34,7 +41,7 @@ const ListOfUsers: React.FC<{keyProp: number}> = ({keyProp}) => {
         <div id='users-list'>
             {loading ? <p>Loading...</p> :
                 usernames.map((username) => (
-                    <a className="user-in-list" key={username}>{username}</a>
+                    <a className="user-in-list" key={username} onClick={() => onViewPosts(username)}>{username}</a>
                 ))
             }
         </div>

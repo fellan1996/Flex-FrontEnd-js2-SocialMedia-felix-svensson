@@ -17,7 +17,6 @@ interface makePostFormProps {
 const MakePostForm: React.FC<makePostFormProps> = ({ loggedIn }) => {
   const [post, setPost] = React.useState("");
 
-
   async function handlePostSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const userRef = doc(db, "users", loggedIn[1]);

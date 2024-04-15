@@ -17,7 +17,7 @@ interface LoggedInUserProps {
   onLogOut: () => void;
   onDeleteUser: () => void;
   username: string;
-  onViewPosts: () => void;
+  onViewPosts: (username: string) => void;
   onMakePost: () => void;
 }
 const LoggedInUser: React.FC<LoggedInUserProps> = ({
@@ -66,10 +66,9 @@ const LoggedInUser: React.FC<LoggedInUserProps> = ({
         <p>{username}</p>
       </div>
       <div>
-        {/* ska lägga till en "view posts"-knapp */}
 
         <button onClick={onMakePost}>Make a post</button>
-        <button onClick={onViewPosts}>View posts</button>
+        <button onClick={() => onViewPosts(username)}>View posts</button>
         <button onClick={onDeleteUser}>Delete account</button>
         <button onClick={onLogOut}>Log out</button>
       </div>

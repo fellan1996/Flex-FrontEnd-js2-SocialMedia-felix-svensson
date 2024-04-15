@@ -9,13 +9,13 @@ import {
   getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
-import norway from '../profilePics/nordic-landscape.jpg';
 
 const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSubmit}) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [profilePic, setProfilePic] = React.useState('norway');
-
+  
+  console.log("is there a loop?")
   //need to check if username already exists
   //need to add the user to firestore
   //need to have a handleSubmit
@@ -28,7 +28,7 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
       console.log("that user already exists in the db");
     else {
         onSubmit(username);
-        addUserToDb()
+        await addUserToDb()
     };
   };
 

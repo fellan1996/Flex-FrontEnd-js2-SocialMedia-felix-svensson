@@ -1,8 +1,5 @@
 import React from "react";
 import "./App.css";
-import LoginForm from "./components/LoginForm";
-import ListOfUsers from "./components/ListOfUsers";
-import RegisterNewUser from "./components/RegisterNewUser";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
 import {
@@ -15,10 +12,8 @@ import {
   getDocs,
 } from "@firebase/firestore";
 import db from "./firebase";
-import LoggedInUser from "./components/LoggedInUser";
 
 function App() {
-  const [greeting, setGreeting] = React.useState("No one is logged in");
   const [newUser, setNewUser] = React.useState("username");
   const [whatToShow, setWhatToShow] = React.useState("login");
   const [loggedIn, setLoggedIn] = React.useState<[boolean, string]>([
@@ -58,14 +53,6 @@ function App() {
   };
 
   React.useEffect(() => {
-    if (loggedIn[0]) {
-      setGreeting(loggedIn[1]);
-    } else {
-      setGreeting("No one is logged in");
-    }
-  }, [loggedIn]);
-
-  React.useEffect(() => {
     //rerender ListOfUsers
     setKeyProp((prevKeyProp) => prevKeyProp + 1);
   }, [newUser]);
@@ -91,7 +78,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onLogIn={() => setWhatToShow("login")} onRegisterUser={() => setWhatToShow("registerNewUser")} onMakePost={() => setWhatToShow("makePost")} onViewPosts={() => setWhatToShow("viewPosts")} onLogOut={logOut} onDeleteUser={deleteUser}/>
+        <Sidebar keyProp={keyProp} loggedIn={loggedIn} onLogIn={() => setWhatToShow("login")} onRegisterUser={() => setWhatToShow("registerNewUser")} onMakePost={() => setWhatToShow("makePost")} onViewPosts={(username) => setWhatToShow("viewPosts-" + username)} onLogOut={logOut} onDeleteUser={deleteUser}/>
         <div className="main">
           <Main whatToShow={whatToShow} loggedIn={loggedIn} onLogIn={handleLogin} onRegisterNewUser={(username: string) => setNewUser(username)}></Main>
         </div>

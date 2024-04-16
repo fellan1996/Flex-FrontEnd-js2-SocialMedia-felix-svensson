@@ -28,7 +28,7 @@ const ViewPosts: React.FC<viewPostsProps> = ({ whosPosts }) => {
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists() && docSnap.data().posts.length > 0) {
-        setPosts(docSnap.data().posts);
+        setPosts(docSnap.data().posts.reverse());
       } else {
         setPosts(["no posts yet"]);
       }

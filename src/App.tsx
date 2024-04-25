@@ -3,13 +3,9 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
 import {
-  addDoc,
-  collection,
   doc,
-  updateDoc,
   deleteDoc,
   getDoc,
-  getDocs,
 } from "@firebase/firestore";
 import db from "./firebase";
 

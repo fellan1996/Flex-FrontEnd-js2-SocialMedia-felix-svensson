@@ -1,13 +1,4 @@
 import React from 'react';
-import {
-    addDoc,
-    collection,
-    doc,
-    updateDoc,
-    getDoc,
-    getDocs,
-  } from "@firebase/firestore";
-  import db from '../firebase';
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;

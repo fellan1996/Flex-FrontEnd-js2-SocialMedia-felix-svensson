@@ -1,12 +1,7 @@
 import React from "react";
 import {
-  addDoc,
-  collection,
   doc,
-  updateDoc,
   getDoc,
-  setDoc,
-  getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
 import norway from "../pictures/nordic-landscape.jpg";
@@ -28,7 +23,7 @@ const LoggedInUser: React.FC<LoggedInUserProps> = ({
   onMakePost
 }) => {
   const [picture, setPicture] = React.useState("");
-
+  console.log("loggedInUser")
   //Få reda på vilken bild den inloggade användaren har
 
   const fetchProfilePicture = async (): Promise<void> => {
@@ -57,7 +52,14 @@ const LoggedInUser: React.FC<LoggedInUserProps> = ({
     }
   };
 
-  fetchProfilePicture();
+  React.useEffect(() => {
+    async function fetchPicture() {
+      await fetchProfilePicture();
+    }
+    fetchPicture();
+  }, [])
+
+  // fetchPicture();
 
   return (
     <div id="logged-in-sidebar">

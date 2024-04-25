@@ -1,12 +1,7 @@
 import React from "react";
 import {
-  addDoc,
-  collection,
   doc,
-  updateDoc,
-  arrayUnion,
   getDoc,
-  getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
 import norway from "../pictures/nordic-landscape.jpg";
@@ -22,7 +17,7 @@ const ViewPosts: React.FC<viewPostsProps> = ({ whosPosts }) => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [picture, setPicture] = React.useState("");
   console.log(whosPosts);
-
+/*
   const fetchPosts = async (): Promise<void> => {
     const docRef = doc(db, "users", whosPosts);
     try {
@@ -36,11 +31,22 @@ const ViewPosts: React.FC<viewPostsProps> = ({ whosPosts }) => {
     } catch (error) {
       console.log("error fetching posts: ", error);
     }
-  };
+  };*/
 
   const fetchProfilePicture = async (): Promise<void> => {
     let profilePicName = "";
     const docRef = doc(db, "users", whosPosts);
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists() && docSnap.data().posts.length > 0) {
+        setPosts(docSnap.data().posts.reverse());
+      } else {
+        setPosts(["no posts yet"]);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log("error fetching posts: ", error);
+    }
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -65,8 +71,11 @@ const ViewPosts: React.FC<viewPostsProps> = ({ whosPosts }) => {
     }
   };
   React.useEffect(() => {
+    console.log("test2");
+
     async function fetchProfileAndPosts() {
-      await fetchPosts();
+      console.log("test");
+     // await fetchPosts();
       await fetchProfilePicture();
     }
     fetchProfileAndPosts();

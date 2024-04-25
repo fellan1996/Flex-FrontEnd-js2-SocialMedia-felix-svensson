@@ -1,12 +1,9 @@
 import React from "react";
 import {
-  addDoc,
   collection,
   doc,
-  updateDoc,
   getDoc,
   setDoc,
-  getDocs,
 } from "@firebase/firestore";
 import db from "../firebase";
 
@@ -16,15 +13,10 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
   const [profilePic, setProfilePic] = React.useState('norway');
   
   console.log("is there a loop?")
-  //need to check if username already exists
-  //need to add the user to firestore
-  //need to have a handleSubmit
-  //do we need to have another handleSubmit in the parent component?
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (await checkIfUserAlreadyExists())
-      //TODO make a better error message
       console.log("that user already exists in the db");
     else {
         onSubmit(username);
@@ -33,7 +25,6 @@ const RegisterNewUser: React.FC<{onSubmit: (newUser: string) => void}> = ({onSub
   };
 
   const addUserToDb = async () => {
-    // Define the collection and document data
     const myCollection = collection(db, "users");
     const myDocumentData = {
       password: password,

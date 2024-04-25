@@ -4,6 +4,7 @@
   "homepage": "https://fellan1996.github.io/Flex-SocialMedia-felix",
   "private": true,
   "dependencies": {
+    "@firebase/firestore": "^4.6.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

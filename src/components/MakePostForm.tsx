@@ -1,12 +1,8 @@
 import React from 'react';
 import {
-    addDoc,
-    collection,
     doc,
     updateDoc,
     arrayUnion,
-    getDoc,
-    getDocs,
   } from "@firebase/firestore";
   import db from '../firebase';
 
@@ -16,6 +12,7 @@ interface makePostFormProps {
 
 const MakePostForm: React.FC<makePostFormProps> = ({ loggedIn }) => {
   const [post, setPost] = React.useState("");
+  console.log("makePost")
 
   async function handlePostSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

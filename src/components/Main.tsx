@@ -1,15 +1,4 @@
 import React from "react";
-import {
-  addDoc,
-  collection,
-  doc,
-  updateDoc,
-  arrayUnion,
-  getDoc,
-  setDoc,
-  getDocs,
-} from "@firebase/firestore";
-import db from "../firebase";
 import LoginForm from "./LoginForm";
 import RegisterNewUser from "./RegisterNewUser";
 import MakePostForm from "./MakePostForm";
